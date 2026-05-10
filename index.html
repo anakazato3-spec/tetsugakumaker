@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>哲学メーカー | unworkshop</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@600;800&family=Zen+Kaku+Gothic+New:wght@400;700;900&display=swap');
+:root{--bl:#00a0e9;--go:#dcbd6f;--gr:#b5b5b6;--bk:#000;--bg:#f8f6f0;--wh:#fff;--g2:#1a8a72;--y2:#b8860b;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);}
+.sc{display:none;}.sc.on{display:block;}
+.lbl{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.2em;color:var(--bl);text-transform:uppercase;display:block;margin-bottom:10px;}
+h1{font-size:clamp(26px,7vw,48px);font-weight:900;line-height:1.15;letter-spacing:-.02em;}
+h1 span{color:var(--bl);}
+.sub{margin-top:12px;font-size:14px;color:#555;line-height:1.7;}
+.info-box{display:inline-block;background:var(--wh);border-radius:18px;padding:18px 24px;box-shadow:0 2px 16px rgba(0,0,0,.06);border:1.5px solid #f0f0f0;margin:20px 0;text-align:left;font-size:13px;font-weight:700;color:#444;line-height:2.1;}
+.prev{background:linear-gradient(135deg,#eaf6ff,#fdf8ec);border:2px solid rgba(0,160,233,.2);border-radius:18px;margin:0 16px 10px;padding:18px 14px;text-align:center;min-height:68px;display:flex;align-items:center;justify-content:center;}
+.pi{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:7px;font-size:clamp(16px,5vw,26px);font-weight:900;letter-spacing:-.01em;line-height:1.4;}
+.p0{color:var(--bl);}.p1{color:var(--y2);}.p2{color:var(--g2);}
+.psep{color:var(--gr);font-size:13px;font-weight:900;}
+.pmt{color:var(--gr);font-size:13px;font-weight:700;}
+.hint{font-size:12px;font-weight:700;color:var(--gr);margin:0 16px 8px;}
+.card{background:var(--wh);border-radius:18px;padding:20px 16px;margin:0 16px 14px;box-shadow:0 2px 16px rgba(0,0,0,.06);border:1.5px solid rgba(0,0,0,.05);animation:up .35s ease forwards;opacity:0;}
+.card:nth-child(2){animation-delay:.04s}.card:nth-child(3){animation-delay:.08s}
+.card:nth-child(4){animation-delay:.12s}.card:nth-child(5){animation-delay:.16s}
+.card:nth-child(6){animation-delay:.20s}.card:nth-child(7){animation-delay:.24s}
+.card:nth-child(8){animation-delay:.28s}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.ctitle{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:700;margin-bottom:12px;}
+.ico{width:30px;height:30px;background:var(--bl);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{padding:7px 12px;border-radius:100px;border:2px solid #e8e8e8;background:var(--bg);font-size:12px;font-weight:700;color:#333;cursor:pointer;transition:all .15s;user-select:none;}
+.chip.s0{border-color:var(--bl);background:rgba(0,160,233,.09);color:var(--bl);}
+.chip.s1{border-color:var(--y2);background:rgba(184,134,11,.1);color:var(--y2);}
+.chip.s2{border-color:var(--g2);background:rgba(26,138,114,.09);color:var(--g2);}
+.crow{display:flex;gap:7px;width:100%;}
+.cinp{flex:1;min-width:0;padding:10px 12px;border:2px solid #e8e8e8;border-radius:11px;font-family:inherit;font-size:13px;font-weight:700;color:var(--bk);background:var(--wh);outline:none;}
+.cinp:focus{border-color:var(--bl);}
+.cadd{flex-shrink:0;padding:10px 13px;border:2px solid var(--bl);border-radius:11px;background:rgba(0,160,233,.08);font-family:inherit;font-size:12px;font-weight:900;color:var(--bl);cursor:pointer;}
+/* ── ボタン行 ── */
+.bfooter{margin:0 16px 24px;display:flex;flex-direction:column;gap:10px;}
+.ftop{display:flex;align-items:center;gap:5px;background:var(--wh);border-radius:16px;padding:12px 14px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1.5px solid rgba(0,0,0,.05);}
+.fcnt{padding:5px 12px;border-radius:100px;border:2px solid #e0e0e0;background:var(--bg);font-family:inherit;font-size:12px;font-weight:700;color:var(--gr);cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.fcnt.on{border-color:var(--bl);color:var(--bl);background:rgba(0,160,233,.07);}
+.ftabs{display:flex;gap:5px;flex:1;}
+.ftab{flex:1;padding:5px 3px;border-radius:9px;border:2px solid #e8e8e8;background:var(--bg);font-family:inherit;font-size:11px;font-weight:900;color:var(--gr);text-align:center;cursor:pointer;line-height:1.3;}
+.ftab .fp{font-size:9px;font-weight:700;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;max-width:65px;margin:1px auto 0;opacity:.75;}
+.ftab.fa0{border-color:var(--bl);color:var(--bl);background:rgba(0,160,233,.08);}
+.ftab.fa1{border-color:var(--y2);color:var(--y2);background:rgba(184,134,11,.08);}
+.ftab.fa2{border-color:var(--g2);color:var(--g2);background:rgba(26,138,114,.08);}
+.fbot{display:flex;gap:9px;}
+.bshuffle{padding:14px 16px;background:var(--wh);border:2px solid #e0e0e0;border-radius:16px;font-family:inherit;font-size:14px;font-weight:700;color:var(--gr);cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.bshuffle:hover{border-color:var(--go);color:#8a6d20;}
+.bprimary{display:block;padding:16px;background:var(--bl);color:var(--wh);border:none;border-radius:16px;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;text-align:center;box-shadow:0 4px 16px rgba(0,160,233,.35);letter-spacing:.02em;flex:1;margin:0;width:auto;}
+.bprimary:disabled{opacity:.4;cursor:not-allowed;}
+/* result */
+#rs{padding-bottom:40px;}
+.rbadge{display:inline-block;background:var(--go);color:var(--wh);font-size:11px;font-weight:900;letter-spacing:.15em;padding:5px 13px;border-radius:100px;margin-bottom:10px;}
+.rplate{background:linear-gradient(135deg,#eaf6ff,#fdf8ec);border:2px solid rgba(0,160,233,.2);border-radius:18px;padding:28px 20px;text-align:center;box-shadow:0 2px 20px rgba(0,160,233,.1);margin:0 16px 14px;}
+.rwords{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:9px;font-size:clamp(20px,6vw,34px);font-weight:900;letter-spacing:-.02em;line-height:1.4;}
+.r0{color:var(--bl);}.r1{color:var(--y2);}.r2{color:var(--g2);}
+.rsep{color:var(--gr);font-size:13px;font-weight:900;}
+.rreason{background:var(--wh);border-radius:14px;padding:16px 18px;margin:0 16px;font-size:13px;color:#666;line-height:1.8;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.05);border:1.5px solid rgba(0,0,0,.05);}
+.brow{display:flex;flex-wrap:wrap;gap:9px;padding:16px 16px 0;}
+.bsec{display:inline-block;padding:12px 14px;background:transparent;color:var(--gr);border:2px solid #e0e0e0;border-radius:100px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;flex:1;text-align:center;min-width:76px;}
+.bsec:hover{border-color:var(--bl);color:var(--bl);}
+.pw{text-align:center;padding:24px 0 12px;font-size:11px;color:var(--gr);font-family:'DM Sans',sans-serif;font-weight:600;letter-spacing:.1em;}
+</style>
+</head>
+<body>
+
+<!-- TOP -->
+<div class="sc on" id="ts">
+  <div style="text-align:center;padding:40px 20px 32px;">
+    <span class="lbl">unworkshop × Alchemist Program</span>
+    <h1>ものづくり<br><span>哲学メーカー</span></h1>
+    <p class="sub">ことばを2つか3つ組み合わせて、<br>自分だけの「哲学」をつくろう！</p>
+    <div class="info-box">
+      🔤 2ワードまたは3ワードを選ぶ<br>
+      ✏️ 自分でことばを追加もできる<br>
+      🔒 名前・個人情報は不要<br>
+      💾 データは保存されません
+    </div><br>
+    <button class="bprimary" style="display:inline-block;width:auto;padding:16px 44px;" onclick="go('bs');startB()">哲学をつくる ✨</button>
+  </div>
+  <div class="pw">powered by unworkshop</div>
+</div>
+
+<!-- BUILDER -->
+<div class="sc" id="bs">
+  <div style="text-align:center;padding:28px 20px 14px;">
+    <span class="lbl">哲学メーカー</span>
+    <h1 style="font-size:clamp(20px,5vw,30px);">ことばをえらんでね</h1>
+  </div>
+  <!-- プレビュー -->
+  <div class="prev"><div class="pi" id="pi"><span class="pmt">ことばをえらぶとここに表示されるよ</span></div></div>
+  <!-- ワード数・スロット選択（上部固定） -->
+  <div class="ftop" style="margin:0 16px 8px;">
+    <button class="fcnt on" id="fc2" onclick="setSC(2)">2語</button>
+    <button class="fcnt" id="fc3" onclick="setSC(3)">3語</button>
+    <div class="ftabs">
+      <button class="ftab fa0" id="ft0" onclick="setAS(0)">ワード1<div class="fp" id="fp0">未選択</div></button>
+      <button class="ftab" id="ft1" onclick="setAS(1)">ワード2<div class="fp" id="fp1">未選択</div></button>
+      <button class="ftab" id="ft2" onclick="setAS(2)" style="display:none;">ワード3<div class="fp" id="fp2">未選択</div></button>
+    </div>
+  </div>
+  <!-- ヒント -->
+  <p class="hint">選んでいる枠：<span id="sh" style="color:var(--bl);font-weight:900;">ワード1</span></p>
+  <!-- ワードパネル -->
+  <div id="wp"></div>
+  <!-- カスタム入力 -->
+  <div class="card">
+    <div class="ctitle"><div class="ico">✏️</div><span>自分でことばを入力</span></div>
+    <div class="crow">
+      <input class="cinp" id="ci" placeholder="例：スライム好きの…" maxlength="15" onkeydown="if(event.key==='Enter')addW()">
+      <button class="cadd" onclick="addW()">追加</button>
+    </div>
+    <p style="font-size:11px;color:var(--gr);font-weight:700;margin-top:6px;">追加したことばは下のカテゴリに出てくるよ</p>
+  </div>
+  <!-- ランダム・決定ボタン -->
+  <div class="bfooter" id="bf">
+    <div class="ftop" style="margin-bottom:0;">
+      <button class="fcnt on" id="bfc2" onclick="setSC(2)">2語</button>
+      <button class="fcnt" id="bfc3" onclick="setSC(3)">3語</button>
+      <div class="ftabs">
+        <button class="ftab fa0" id="bft0" onclick="setAS(0)">ワード1<div class="fp" id="bfp0">未選択</div></button>
+        <button class="ftab" id="bft1" onclick="setAS(1)">ワード2<div class="fp" id="bfp1">未選択</div></button>
+        <button class="ftab" id="bft2" onclick="setAS(2)" style="display:none;">ワード3<div class="fp" id="bfp2">未選択</div></button>
+      </div>
+    </div>
+    <div class="fbot">
+      <button class="bshuffle" onclick="shuf()">🎲 ランダム</button>
+      <button class="bprimary" id="cb" onclick="showR()" disabled>この哲学に決める ✨</button>
+    </div>
+  </div>
+  <div class="pw">powered by unworkshop</div>
+</div>
+
+<!-- RESULT -->
+<div class="sc" id="rs">
+  <div style="text-align:center;padding:36px 20px 20px;">
+    <div class="rbadge">YOUR PHILOSOPHY</div>
+    <div style="font-size:14px;font-weight:700;color:#555;margin-top:4px;">きみの哲学、完成！</div>
+    <div style="font-size:12px;color:var(--gr);font-weight:700;margin-top:3px;">ピンとこなければシャッフルしてみて ✨</div>
+  </div>
+  <div class="rplate"><div class="rwords" id="rw"></div></div>
+  <div class="rreason" id="rr"></div>
+  <div class="brow">
+    <button class="bsec" onclick="go('bs')">← 選び直す</button>
+    <button class="bsec" style="border-color:var(--go);color:#8a6d20;" onclick="shuf();setTimeout(showR,80)">🎲 シャッフル</button>
+    <button class="bsec" style="border-color:var(--bl);color:var(--bl);" onclick="printP()">印刷 🖨️</button>
+  </div>
+  <div class="pw">powered by unworkshop</div>
+</div>
+
+<script>
+const C=[
+  {l:'🎯 ものづくりのスタイル',w:['アドリブな','計画的な','直感で動く','がむしゃらな','じっくり考える','全力投球の','こだわりすぎる','即興の','丁寧すぎる','スピード重視の','マイペースな','超集中タイプの','試行錯誤する','一発勝負の','下書きしない','何度もやり直す','まず手を動かす','細かいところが好きな','大胆な','失敗を楽しめる','完成まで諦めない','ひらめき型の']},
+  {l:'🎨 ものづくりジャンル',w:['絵を描くのが好きな','工作好きの','プログラミング好きの','電子工作好きの','ロボット作りが好きな','木工好きの','ゲームづくりにはまってる','からくり作りが好きな','料理好きの','手芸が好きな','音楽好きの','実験が好きな','物語を書くのが好きな','雑貨づくり好きの','発明が好きな','改造好きの','設計好きの','写真好きの','映像づくり好きの','フィギュア好きの']},
+  {l:'🔧 道具・ツール・材料',w:['レーザーカッター好きの','3Dプリンター好きの','Blender好きの','モデリング好きの','粘土好きの','木材好きの','はんだごて好きの','糸のこ好きの','センサー好きの','工具好きの','ダンボール好きの','アクリル板好きの','布好きの','MDF板好きの','プログラミング好きの']},
+  {l:'✨ キャラクター・個性',w:['人をおどろかせたい','ユニークすぎる','個性的な','変わり者の','完璧主義の','いたずら好きな','熱血な','冷静沈着な','おしゃべりな','無口だけど本気の','わいわい好きな','ひとり行動派の','のんびりしてるけど本気の','情熱的な','負けず嫌いな','好奇心旺盛な','ちょっぴり不思議な','うっかりしてるけど器用な','頑固だけど優しい','マルチすぎる']},
+  {l:'💎 好きなもの・テーマ',w:['鉱石が好きな','スライムが好きな','犬が好きな','猫が好きな','宇宙が好きな','海が好きな','昆虫が好きな','電車が好きな','ゲームが好きな','マンガが好きな','歴史が好きな','数学が好きな','スポーツが好きな','カラフルなものが好きな','ぬいぐるみが好きな','ミニチュアが好きな','お菓子が好きな','廃材が好きな','パズルが好きな','植物が好きな']},
+  {l:'🏆 称号・ポジション（文末）',w:['プロ','達人','申し子','探検家','魔法使い','研究者','オタク','職人','開拓者','天才','王様','スペシャリスト','パイオニア','守り神','使者','カリスマ','エキスパート','変革者','伝道師','先駆者','発明家','クリエイター','デザイナー','エンジニア','アーティスト','ハッカー','チャンピオン','レジェンド','ヒーロー','マスター','コレクター','メーカー','プログラマー','破壊神','ゆるキャラ','社長','アルケミスト','遊び人','小学生','中学生','高校生','大人','こども']},
+  {l:'😄 ゆるい・おもしろ系',w:['なんでもやってみる','思いつきで動く','気合いだけは一流の','絶賛迷走中の','まだ途中の','やりすぎ注意の','天下無双の','謎のセンスを持つ','止まれない','うっかり天才の','気が向いたらすごい','のんきに見えて本気の','気づいたら最前線にいる','笑いを忘れない','失敗コレクターの','全力で遊ぶ']},
+];
+
+let sc=2,as=0,sel=[null,null,null],cw=[];
+
+function go(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  // iframeでも動くようにtopへ
+  try{window.scrollTo(0,0);}catch(e){}
+  try{document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch(e){}
+}
+
+function startB(){sel=[null,null,null];as=0;render();upAll();}
+
+function setSC(n){
+  sc=n;
+  // 上部・下部の両方を同期
+  ['fc2','fc3','bfc2','bfc3'].forEach((id,i)=>document.getElementById(id)&&document.getElementById(id).classList.toggle('on',i%2+2===n));
+  ['ft2','bft2'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display=n===3?'':'none';});
+  if(n===2)sel[2]=null;
+  if(as>=n)setAS(0); else upAll();
+}
+
+function setAS(i){
+  as=i;
+  // 上部タブ
+  for(let k=0;k<3;k++){
+    const t=document.getElementById('ft'+k);
+    if(!t)continue;
+    t.className='ftab';
+    if(k===i)t.classList.add('fa'+i);
+  }
+  // 下部タブ
+  for(let k=0;k<3;k++){
+    const t=document.getElementById('bft'+k);
+    if(!t)continue;
+    t.className='ftab';
+    if(k===i)t.classList.add('fa'+i);
+  }
+  const cols=['var(--bl)','var(--y2)','var(--g2)'];
+  const names=['ワード1','ワード2','ワード3'];
+  const sh=document.getElementById('sh');
+  if(sh){sh.textContent=names[i];sh.style.color=cols[i];}
+  render();
+}
+
+function render(){
+  const cats=[...C];
+  if(cw.length)cats.push({l:'✏️ 自分で追加したことば',w:cw});
+  let h='';
+  for(const cat of cats){
+    const em=cat.l.split(' ')[0];
+    const lb=cat.l.slice(cat.l.indexOf(' ')+1);
+    h+=`<div class="card"><div class="ctitle"><div class="ico" style="background:#f0f0f0;font-size:17px;">${em}</div><span style="font-size:13px;">${lb}</span></div><div class="chips">`;
+    for(const w of cat.w){
+      let cl='';
+      for(let k=0;k<sc;k++)if(sel[k]===w){cl='s'+k;break;}
+      h+=`<div class="chip ${cl}" onclick="pick('${w.replace(/'/g,"\\'")}')"> ${w}</div>`;
+    }
+    h+=`</div></div>`;
+  }
+  document.getElementById('wp').innerHTML=h;
+}
+
+function pick(w){
+  for(let k=0;k<sc;k++)if(k!==as&&sel[k]===w)sel[k]=null;
+  if(sel[as]===w){sel[as]=null;upAll();return;}
+  sel[as]=w;
+  const nx=Array.from({length:sc},(_,k)=>k).find(k=>k!==as&&sel[k]===null);
+  if(nx!==undefined)setAS(nx); else render();
+  upAll();
+}
+
+function addW(){
+  const inp=document.getElementById('ci'),v=inp.value.trim();
+  if(!v)return;
+  if(!cw.includes(v))cw.push(v);
+  sel[as]=v;inp.value='';
+  const nx=Array.from({length:sc},(_,k)=>k).find(k=>k!==as&&sel[k]===null);
+  if(nx!==undefined){setAS(nx);}else{render();}
+  upAll();
+}
+
+function upAll(){upPrev();upTabs();upBtn();}
+
+function upPrev(){
+  const pi=document.getElementById('pi');
+  const ws=sel.slice(0,sc);
+  if(!ws.filter(Boolean).length){pi.innerHTML='<span class="pmt">ことばをえらぶとここに表示されるよ</span>';return;}
+  let h='';
+  for(let i=0;i<sc;i++){
+    if(i>0)h+='<span class="psep">×</span>';
+    h+=ws[i]?`<span class="p${i}">${ws[i]}</span>`:'<span style="color:rgba(0,0,0,.15);font-size:12px;font-weight:700;">？</span>';
+  }
+  pi.innerHTML=h;
+}
+
+function upTabs(){
+  for(let k=0;k<3;k++){
+    const e=document.getElementById('fp'+k);
+    if(e)e.textContent=sel[k]||'未選択';
+    const be=document.getElementById('bfp'+k);
+    if(be)be.textContent=sel[k]||'未選択';
+  }
+}
+
+function upBtn(){
+  document.getElementById('cb').disabled=sel.slice(0,sc).filter(Boolean).length<sc;
+}
+
+function shuf(){
+  const tCat=C.find(c=>c.l.includes('称号'));
+  const oth=C.filter(c=>!c.l.includes('称号')).map(c=>c.w).flat().concat(cw);
+  const pk=(arr,ex)=>{let w,t=0;do{w=arr[Math.floor(Math.random()*arr.length)];t++;}while(ex.includes(w)&&t<30);return w;};
+  const last=sc-1;
+  for(let k=0;k<sc;k++)sel[k]=k===last?pk(tCat.w,sel.slice(0,k)):pk(oth,[...sel.slice(0,k)]);
+  upAll();render();
+}
+
+function showR(){
+  const ws=sel.slice(0,sc).filter(Boolean);
+  if(ws.length<sc)return;
+  let h='';
+  for(let i=0;i<ws.length;i++){if(i>0)h+='<span class="rsep">×</span>';h+=`<span class="r${i}">${ws[i]}</span>`;}
+  document.getElementById('rw').innerHTML=h;
+  const tmpl=[
+    `「${ws.join('')}」。このことばの組み合わせ、世界でただひとり。`,
+    `${ws[0]}人間が${ws[ws.length-1]}を目指したら、こうなった。それがきみ。`,
+    `「${ws.join('×')}」——これがすべて。`,
+    `このことばが重なる人は、世界にきみだけ。`,
+    `ほかのだれにも真似できない、きみのオリジナルスタイル。`,
+  ];
+  document.getElementById('rr').textContent=tmpl[Math.floor(Math.random()*tmpl.length)];
+  go('rs');
+  // iframe内でも確実にトップへ
+  setTimeout(()=>{
+    try{window.scrollTo({top:0,behavior:'instant'});}catch(e){}
+    try{document.documentElement.scrollTop=0;document.body.scrollTop=0;}catch(e){}
+    try{document.getElementById('rs').scrollIntoView({block:'start',behavior:'instant'});}catch(e){}
+  },0);
+}
+
+function printP(){
+  const ws=sel.slice(0,sc).filter(Boolean);
+  const cols=['#00a0e9','#dcbd6f','#5bc8af'];
+  const wh=ws.map((w,i)=>(i>0?'<span style="color:#ccc;margin:0 6px;">×</span>':'')+`<span style="color:${cols[i]};">${w}</span>`).join('');
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><style>@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@900&display=swap');body{background:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;}.p{background:#000;border-radius:20px;padding:44px 56px;text-align:center;}.w{font-family:'Zen Kaku Gothic New',sans-serif;font-size:38px;font-weight:900;line-height:1.5;}.pw{margin-top:20px;font-size:11px;color:#555;font-family:sans-serif;letter-spacing:.1em;}</style></head><body><div class="p"><div class="w">${wh}</div><div class="pw">powered by unworkshop / Alchemist Program</div></div></body></html>`);
+  win.document.close();setTimeout(()=>win.print(),350);
+}
+
+// ── iframe高さ自動拡張 ──
+// 自身がiframe内にいる場合、コンテンツ高さを親ページにpostMessageで通知する。
+// STUDIOなど親ページ側でこのメッセージを受け取ってiframeのheightを変更できる。
+// また body の min-height を document.documentElement.scrollHeight に合わせることで
+// iframe内スクロールではなくページ全体のスクロールとして機能させる。
+(function(){
+  function notifyHeight(){
+    const h = document.body.scrollHeight;
+    // 親フレームにメッセージ送信（STUDIOカスタムコード等で受け取り可能）
+    try{ window.parent.postMessage({type:'resize',height:h},'*'); }catch(e){}
+    // iframe自身のサイズをコンテンツに合わせる
+    try{
+      if(window.frameElement){
+        window.frameElement.style.height = h + 'px';
+        window.frameElement.style.minHeight = h + 'px';
+      }
+    }catch(e){}
+  }
+  // DOM変化を監視して高さを随時通知
+  const ro = new ResizeObserver(notifyHeight);
+  ro.observe(document.body);
+  // 画面切替後にも通知
+  const _go = go;
+  window.go = function(id){
+    _go(id);
+    setTimeout(notifyHeight, 50);
+    setTimeout(notifyHeight, 300);
+  };
+  // 初回
+  window.addEventListener('load', notifyHeight);
+  notifyHeight();
+})();
+</script>
+</body>
+</html>
